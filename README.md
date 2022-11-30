@@ -3,7 +3,7 @@
 First prepare data file by rewriting source ip, destination ip, source mac and destination mac of first hop. For this the utilities `tcpprep` and `tcprewrite` can be used. To help with this the script `rewrite.sh` can be used.
 
 ```
-./tcprewrite <interface> <dest_ip> <infile.pcap> <outfile.pcap>
+./rewrite.sh <interface> <dest_ip> <infile.pcap> <outfile.pcap>
 ```
 Please note this script will only work on linux based systems.
 
