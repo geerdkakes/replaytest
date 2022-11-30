@@ -42,6 +42,20 @@ done
 device_pcap_capture="${data_dir_device}/${session_id}/device_dev1"
 server_pcap_capture="${data_dir_server}/${session_id}/pcaps/server_dev1"
 
+# displaying settings for future reference
+echo "${scriptname}: the following variables are used for this script"
+echo "{scriptname}: session_id: $session_id"
+echo "{scriptname}: server: ${server}"
+echo "{scriptname}: server_user: ${server_user}"
+echo "{scriptname}: duration: $duration"
+echo "{scriptname}: device_pcap_capture: ${device_pcap_capture}"
+echo "{scriptname}: server_pcap_capture: ${server_pcap_capture}"
+echo "{scriptname}: protocol: ${server_user}"
+echo "{scriptname}: port_range: ${port_range}"
+echo "{scriptname}: device_interface: ${device_interface}"
+echo "{scriptname}: server_interface: ${server_interface}"
+echo "{scriptname}: replay_pcap: ${replay_pcap}"
+echo ""
 
 # prepare directories
 mkdir -p ${data_dir_device}/${session_id}

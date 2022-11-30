@@ -35,9 +35,9 @@ done
 # dynamic variables
 #############################################
 if [ "${session_id}" = "" ]; then
-  pcap_dir="${data_dir_server}"
+  pcap_dir="${data_dir_device}"
 else
-  pcap_dir="${data_dir_server}/${session_id}"
+  pcap_dir="${data_dir_device}/${session_id}"
 fi
 
 if [ ! -d "${pcap_dir}" ] ; then
@@ -129,4 +129,3 @@ for dev in ${devs[@]}; do
         echo
     done
 done
-poclab@fr52_mps:~/latencytests  $

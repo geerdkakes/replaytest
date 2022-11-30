@@ -37,15 +37,21 @@ echo "gateway_address: ${gateway_address}"
 echo "dest_mac: ${dest_mac}"
 echo "dest_ip: ${dest_ip}"
 echo "infile: ${infile}"
-echo "outfile: ${outefile}"
+echo "outfile: ${outfile}"
 echo
 
 read -p "Continue to rewrite? (y/N) " yn
 
 case $yn in
 	y ) echo "rewriting..."
+      echo "preparing cache file ${infile}.cache"
+      echo "# tcpprep --auto=first --pcap=${infile} --cachefile=${infile}.cache"
       tcpprep --auto=first --pcap=${infile} --cachefile=${infile}.cache
-      tcprewrite --endpoints=${source_ip}:${dest_ip} --enet-smac=${source_mac} --enet-dmac=${dest_mac} -i ${infile} -o ${outefile} --cachefile=${infile}.icmp_in.cache
+      echo ""
+      echo "rewriting to ${outfile}"
+      echo "# tcprewrite --endpoints=${source_ip}:${dest_ip} --enet-smac=${source_mac} --enet-dmac=${dest_mac} -i ${infile} -o ${outfile} --cachefile=${infile}.cache"
+      tcprewrite --endpoints=${source_ip}:${dest_ip} --enet-smac=${source_mac} --enet-dmac=${dest_mac} -i ${infile} -o ${outfile} --cachefile=${infile}.cache
+      echo "done"
       ;;
 	n ) echo "stopping...."
 		  ;;
