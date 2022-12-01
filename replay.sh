@@ -70,13 +70,13 @@ ssh ${server_user}@${server} mkdir -p ${data_dir_server}/${session_id}/pcaps
 
 # before the replay, start capture on client
 echo "${scriptname}: starting tcpdump on device"
-echo "${scriptname}: sudo tcpdump -i ${device_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${device_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &"
-sudo tcpdump -i ${device_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${device_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &
+echo "${scriptname}: sudo timeout $(( tcpdump_duration + 5 )) tcpdump -i ${device_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${device_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &"
+sudo timeout $(( tcpdump_duration + 5 )) tcpdump -i ${device_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${device_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &
 
 # and start capture on server
 echo "${scriptname}: starting tcpdump on server"
-echo "${scriptname}: ssh ${server_user}@${server} sudo tcpdump -i ${server_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${server_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &"
-ssh ${server_user}@${server} sudo tcpdump -i ${server_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${server_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &
+echo "${scriptname}: ssh ${server_user}@${server} sudo timeout $(( tcpdump_duration + 5 )) tcpdump -i ${server_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${server_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &"
+ssh ${server_user}@${server} sudo timeout $(( tcpdump_duration + 5 )) tcpdump -i ${server_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${server_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &
 
 echo "${scriptname}: waiting 10 seconds for tcpdump to start correct"
 sleep 10
