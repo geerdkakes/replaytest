@@ -57,21 +57,36 @@ echo "${scriptname}: server_interface: ${server_interface}"
 echo "${scriptname}: replay_pcap: ${replay_pcap}"
 echo ""
 
+echo "${scriptname}: checking pcap duration"
+pcap_duration=$(capinfos  -u ${replay_pcap} | sed -n 2p | awk '{print $3}' |  xargs printf "%1.0f")
+(( pcap_duration++ ))
+tcpdump_duration=$(( pcap_duration + 10 ))
+echo "${scriptname}: pcap duration is: ${pcap_duration} seconds"
+
 # prepare directories
+echo "${scriptname}: creating device and server directories"
 mkdir -p ${data_dir_device}/${session_id}
 ssh ${server_user}@${server} mkdir -p ${data_dir_server}/${session_id}/pcaps
 
 # before the replay, start capture on client
-sudo tcpdump -i ${device_interface} ${protocol} portrange ${port_range} -B 4096 -G ${duration} -W 1 -w ${device_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &
+echo "${scriptname}: starting tcpdump on device"
+echo "${scriptname}: sudo tcpdump -i ${device_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${device_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &"
+sudo tcpdump -i ${device_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${device_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &
 
 # and start capture on server
-ssh ${server_user}@${server} sudo tcpdump -i ${server_interface} ${protocol} portrange ${port_range} -B 4096 -G ${duration} -W 1 -w ${server_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &
+echo "${scriptname}: starting tcpdump on server"
+echo "${scriptname}: ssh ${server_user}@${server} sudo tcpdump -i ${server_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${server_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &"
+ssh ${server_user}@${server} sudo tcpdump -i ${server_interface} ${protocol} portrange ${port_range} -B 4096 -G ${tcpdump_duration} -W 1 -w ${server_pcap_capture}_%Y-%m-%d_%H.%M.%S.pcap &
 
-sleep 5
+echo "${scriptname}: waiting 10 seconds for tcpdump to start correct"
+sleep 10
 
 # start replay
+echo "${scriptname}: starting tcpreplay"
+echo "${scriptname}: sudo tcpreplay --intf1=${device_interface} ${replay_pcap}"
 sudo tcpreplay --intf1=${device_interface} ${replay_pcap}
 
+echo "${scriptname}: finished tcpreplay, waiting 30 seconds before downloading pcaps"
 sleep 30
 
 # retrieve data from server
