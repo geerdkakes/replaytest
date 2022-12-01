@@ -58,9 +58,9 @@ echo "${scriptname}: replay_pcap: ${replay_pcap}"
 echo ""
 
 echo "${scriptname}: checking pcap duration"
-pcap_duration=$(capinfos  -u ${replay_pcap} | sed -n 2p | awk '{print $3}' |  xargs printf "%1.0f")
+pcap_duration=$(LC_NUMERIC=en_US.utf8 capinfos  -u ${replay_pcap} | sed -n 2p | awk '{print $3}' |  xargs printf "%1.0f")
 (( pcap_duration++ ))
-tcpdump_duration=$(( pcap_duration + 10 ))
+tcpdump_duration=$(( pcap_duration + 20 ))
 echo "${scriptname}: pcap duration is: ${pcap_duration} seconds"
 
 # prepare directories
