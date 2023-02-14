@@ -101,4 +101,4 @@ fi
 
 # analyse data
 echo "${scriptname}: starting pcap analysis .... skipping takes to long"
-# ./run_pcap_analysis.sh -s ${session_id}
+#./run_pcap_analysis.sh -s ${session_id}
