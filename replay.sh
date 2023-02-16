@@ -13,7 +13,7 @@ fi
 # load default variables
 #############################################
 source variables.sh
-duration="210"
+extraduration="20"
 
 #############################################
 # interpret command line flags
@@ -29,8 +29,8 @@ do
         --server) server="$2"
             echo "${scriptname} server to use: ${server}"
             shift ;;
-        -t) duration="${2}"
-            echo "${scriptname} duration is: $duration"
+        -t) extraduration="${2}"
+            echo "${scriptname} extraduration is: $extraduration"
             shift ;;
         *) echo "${scriptname} $1 is not an option";;
     esac
@@ -60,8 +60,8 @@ echo ""
 echo "${scriptname}: checking pcap duration"
 pcap_duration=$(LC_NUMERIC=en_US.utf8 capinfos  -u ${replay_pcap} | sed -n 2p | awk '{print $3}' |  xargs printf "%1.0f")
 (( pcap_duration++ ))
-tcpdump_duration=$(( pcap_duration + 20 ))
-echo "${scriptname}: pcap duration is: ${pcap_duration} seconds"
+tcpdump_duration=$(( pcap_duration + extraduration ))
+echo "${scriptname}: pcap duration is: ${pcap_duration} seconds. pcap recording time set to ${tcpdump_duration}"
 
 # prepare directories
 echo "${scriptname}: creating device and server directories"
