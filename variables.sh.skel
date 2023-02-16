@@ -4,8 +4,8 @@
 
 
 # Directories to store data files
-data_dir_device="/home/fieldlabs/datadir"
-data_dir_server="/home/poclab/datadir"
+data_dir_device="/tmp/datadir"
+data_dir_server="/tmp/datadir"
 
 # Path with configuration file pcap analysis
 pcap_analysis_config_file="./config_pcap_analysis.js"
@@ -14,10 +14,10 @@ pcap_analysis_config_file="./config_pcap_analysis.js"
 pcap_analysis_app="/usr/local/pcap-analysis/index.js"
 
 # server address
-server="172.16.7.6"
+server="10.10.10.10"
 
 # server userid
-server_user="poclab"
+server_user="serveruser"
 
 # default replay data pcap
 replay_pcap="./testdata/rewritten_data.pcap"
@@ -26,7 +26,7 @@ replay_pcap="./testdata/rewritten_data.pcap"
 device_interface="wwan0"
 
 # default server interface
-server_interface="bond0.3501"
+server_interface="eth0"
 
 # default portrange
 port_range="5000-5014"
